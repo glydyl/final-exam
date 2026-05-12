@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Web Design Portfolio | Compilation</title>
+<link rel="icon" type="image/png" href="gallery/portfolio.png">
+<style>
+
+:root {
+--primary: #ff8c00;
+--bg-muted: #ffb347;
+}
+
+body, html {
+margin: 0; padding: 0;
+height: 100vh; width: 100vw;
+font-family: 'Inter', sans-serif;
+overflow: hidden; 
+}
+.view-section { display: none; height: 100vh; width: 100vw; }
+.active-view { display: flex !important; }
+
+#login-view {
+background-color: var(--bg-muted);
+justify-content: center;
+align-items: center;
+position: relative;
+z-index: 10;
+}
+
+.login-box {
+background: white; padding: 40px; border-radius: 20px;
+box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 300px;
+}
+
+.login-box input {
+width: 100%; padding: 10px; margin: 10px 0;
+border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;
+}
+
+#master-container {
+position: relative;
+height: 100vh;
+width: 100vw;
+}
+
+iframe {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+border: none;
+z-index: 1;
+}
+
+
+.pagination {
+position: absolute;
+bottom: 30px;
+left: 50%;
+transform: translateX(-50%);
+display: flex;
+gap: 12px;
+z-index: 5; 
+background: rgba(0, 0, 0, 0.4);
+padding: 12px 24px;
+border-radius: 50px;
+backdrop-filter: blur(8px);
+border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.page-btn, .nav-btn {
+background: rgba(255, 255, 255, 0.15);
+border: 1px solid white;
+color: white;
+padding: 10px 16px;
+border-radius: 50%;
+cursor: pointer; 
+transition: 0.3s ease;
+font-weight: bold;
+display: flex;
+align-items: center;
+justify-content: center;
+min-width: 40px;
+}
+
+.page-btn.active { 
+background: var(--primary); 
+border-color: transparent; 
+box-shadow: 0 0 15px var(--primary);
+transform: scale(1.1);
+}
+
+.page-btn:hover:not(.active), .nav-btn:hover {
+ background: rgba(255, 255, 255, 0.4);
+}
+
+</style>
+</head>
+<body>
+
+<section id="login-view" class="view-section active-view">
+<div class="login-box">
+<h2>Welcome!</h2>
+<input type="text" placeholder="Username">
+<input type="password" placeholder="Password"><br><br>
+<button onclick="goToHero()" style="background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 10px; cursor: pointer; font-weight: bold;">
+Login </button>
+</div>
+</section>
+
+<section id="master-container" class="view-section">
+        
+<iframe id="main-frame" src=""></iframe>
+
+<div class="pagination">
+<button class="nav-btn" onclick="nav(-1)">&lt;</button>
+<button class="page-btn" id="p1" onclick="loadActivity(1)">1</button>
+<button class="page-btn" id="p2" onclick="loadActivity(2)">2</button>
+<button class="page-btn" id="p3" onclick="loadActivity(3)">3</button>
+<button class="page-btn" id="p4" onclick="loadActivity(4)">4</button>
+<button class="page-btn" id="p5" onclick="loadActivity(5)">5</button>
+<button class="nav-btn" onclick="nav(1)">&gt;</button>
+</div>
+</section>
+
+<script>
+let current = 1;
+const totalPages = 5;
+
+const links = [
+"https://glydyl.github.io/activity-5/", // Page 1: Hero
+"https://glydyl.github.io/",            // Page 2: Initial
+"https://glydyl.github.io/Activity-2/", // Page 3: CSS Basic
+"https://glydyl.github.io/Activity-3/", // Page 4: Shadow/Hover
+"https://glydyl.github.io/activity-7/"  // Page 5: Cat Gallery
+];
+
+function goToHero() {
+document.getElementById('login-view').classList.remove('active-view');
+document.getElementById('master-container').classList.add('active-view');
+loadActivity(1); 
+}
+
+function loadActivity(num) {
+current = num;
+document.getElementById('main-frame').src = links[num - 1];
+            
+
+document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+document.getElementById('p' + num).classList.add('active');
+}
+
+function nav(dir) {
+let next = current + dir;
+if (next >= 1 && next <= totalPages) {
+loadActivity(next);
+}
+}
+</script>
+</body>
+</html>
